@@ -12,3 +12,5 @@ for layer in Glyphs.font.selectedLayers:
 	for layer in glyph.layers:
 		layer.RSB = 30
 		layer.LSB = 30
+
+# EOF

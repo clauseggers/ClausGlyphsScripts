@@ -1,4 +1,4 @@
-#MenuTitle: Copies all the layers of the glyph to their backgrounds.
+#MenuTitle: Copies all layers of the glyph to their backgrounds.
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""

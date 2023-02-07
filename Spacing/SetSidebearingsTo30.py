@@ -1,4 +1,4 @@
-#MenuTitle: Set sidebearings of all layers of current glyph to 30
+#MenuTitle: Sets sidebearings of all layers of current glyph to 30
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""

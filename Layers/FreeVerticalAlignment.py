@@ -1,4 +1,4 @@
-#MenuTitle: Free the Vertical Alignment
+#MenuTitle: Free the vertical alignment, but preserve the horizontal
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""

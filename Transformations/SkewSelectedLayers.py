@@ -28,7 +28,6 @@ for palette in palettes:
 selectedRows = palette.layersList().selectedRowIndexes()
 layers = palette.allSelectedLayers_(selectedRows)
 
-# skewAngle = 15.6
 from robofab.interface.all.dialogs import AskString
 skewAngle = float(AskString("Enter skew angle"))
 slantLayers(layers, skewAngle)

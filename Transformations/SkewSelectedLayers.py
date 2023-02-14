@@ -1,5 +1,5 @@
 #MenuTitle: Skew selected layers, but not components
-#Created by Georg
+#Created by Georg S., Sebastian Carewe, Claus E.S.
 # -*- coding: utf-8 -*-
 __doc__="""
 Skews the selected layers of the selected glyph(s), but does not slant the components.

@@ -1,8 +1,8 @@
-#MenuTitle: Sets side-bearings of all layers of current glyph to 30
+#MenuTitle: Sets Both side-bearings of all layers of current glyph to 30
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
-Sets the side-bearings of all the layers of the current glyph to 30.
+Sets both side-bearings of all the layers of the current glyph to 30.
 """
 
 for layer in Glyphs.font.selectedLayers:

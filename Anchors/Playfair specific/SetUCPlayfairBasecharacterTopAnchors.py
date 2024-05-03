@@ -1,8 +1,8 @@
-#MenuTitle: Set the upper case base-character anchors for Playfair
+#MenuTitle: Set the upper-case base-character anchors for Playfair
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
-Sets the upper case base-character anchors for Playfair.
+Sets the upper-case base-character anchors for Playfair.
 """
 
 from GlyphsApp import *

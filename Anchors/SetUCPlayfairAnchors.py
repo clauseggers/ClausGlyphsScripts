@@ -49,15 +49,17 @@ anchor_coordinates = {
     ]
 }
 
-selected_glyphs = font.selectedLayers
+selected_layers = font.selectedLayers
 
-for selected_layer in selected_glyphs:
+for selected_layer in selected_layers:
     glyph = selected_layer.parent
-    for anchor_name in anchor_names:
-        for layer_id, coordinate in enumerate(anchor_coordinates[anchor_name], start=1):
-            if layer_id <= len(glyph.layers):
-                layer = glyph.layers[layer_id - 1]
-                layer.anchors.append(GSAnchor(anchor_name, NSPoint(coordinate[0], coordinate[1])))
+    for index, layer in enumerate(glyph.layers):
+        for anchor_name in anchor_names:
+            coordinate = anchor_coordinates[anchor_name][index]
+            existing_anchor = layer.anchors[anchor_name]
+            if existing_anchor:
+                layer.removeAnchor_(existing_anchor)
+            layer.anchors.append(GSAnchor(anchor_name, NSPoint(coordinate[0], coordinate[1])))
 
 font.enableUpdateInterface()
 

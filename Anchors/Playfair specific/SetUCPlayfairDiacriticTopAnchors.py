@@ -1,8 +1,8 @@
-#MenuTitle: Set the upper case anchors for Playfair
+#MenuTitle: Set the upper case diacritics anchors for Playfair
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
-Sets the upper case anchors for Playfair.
+Sets the upper case diacritics anchors for Playfair.
 """
 
 from GlyphsApp import *
@@ -13,39 +13,39 @@ font = Glyphs.font
 font.disableUpdateInterface()
 
 # Define anchor names
-anchor_names = ["test_1", "test_2", "test_3"]
+anchor_names = ["top", "top_low_10", "top_low_20"]
 
 # Define a dictionary to store anchor coordinates per anchor name
 anchor_coordinates = {
-    "test_1": [
-        (10, 10),
-        (10, 20),
-        (10, 30),
-        (10, 40),
-        (10, 50),
-        (10, 60),
-        (10, 70),
-        (10, 80)
+    "top": [
+        (0, 860), # Needlepoint SemiCondensed
+        (0, 860), # Needlepoint SemiExpanded
+        (0, 860), # Needlepoint Black SemiCondensed
+        (0, 860), # Needlepoint Black SemiExpanded
+        (0, 860), # Agate SemiCondensed
+        (0, 860), # Agate SemiExpanded
+        (0, 860), # Agate Black SemiCondensed
+        (0, 860)  # Agate Black SemiExpanded
     ],
-    "test_2": [
-        (20, 10),
-        (20, 20),
-        (20, 30),
-        (20, 40),
-        (20, 50),
-        (20, 60),
-        (20, 70),
-        (20, 80)
+    "top_low_10": [
+        (0, 850),
+        (0, 850),
+        (0, 850),
+        (0, 850),
+        (0, 850),
+        (0, 850),
+        (0, 850),
+        (0, 850)
     ],
-    "test_3": [
-        (30, 10),
-        (30, 20),
-        (30, 30),
-        (30, 40),
-        (30, 50),
-        (30, 60),
-        (30, 70),
-        (30, 80)
+    "top_low_20": [
+        (0, 840),
+        (0, 840),
+        (0, 840),
+        (0, 840),
+        (0, 840),
+        (0, 840),
+        (0, 840),
+        (0, 840)
     ]
 }
 

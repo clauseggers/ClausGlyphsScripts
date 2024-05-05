@@ -13,7 +13,7 @@ font = Glyphs.font
 font.disableUpdateInterface()
 
 # Define anchor names
-anchor_names = ["top", "top_low_1", "top_low_2"]
+anchor_names = ["top", "top_low_1", "top_low_2", "top_low_3", "top_low_4"]
 
 # Define a dictionary to store anchor coordinates per anchor name
 anchor_coordinates = {
@@ -28,16 +28,26 @@ anchor_coordinates = {
         (0, 744)  # Agate Black SemiExpanded
     ],
     "top_low_1": [
-        (0, 711),
-        (0, 711),
-        (0, 714),
-        (0, 714),
-        (0, 711),
-        (0, 711),
-        (0, 714),
-        (0, 714)
+        (0, 721),
+        (0, 721),
+        (0, 724),
+        (0, 724),
+        (0, 721),
+        (0, 721),
+        (0, 724),
+        (0, 724)
     ],
-    "top_low_2": [
+        "top_low_2": [
+        (0, 701),
+        (0, 701),
+        (0, 704),
+        (0, 704),
+        (0, 701),
+        (0, 701),
+        (0, 704),
+        (0, 704)
+    ],
+    "top_low_3": [
         (0, 681),
         (0, 681),
         (0, 684),
@@ -46,6 +56,16 @@ anchor_coordinates = {
         (0, 681),
         (0, 684),
         (0, 684)
+    ],
+        "top_low_4": [
+        (0, 661),
+        (0, 661),
+        (0, 664),
+        (0, 664),
+        (0, 661),
+        (0, 661),
+        (0, 664),
+        (0, 664)
     ]
 }
 

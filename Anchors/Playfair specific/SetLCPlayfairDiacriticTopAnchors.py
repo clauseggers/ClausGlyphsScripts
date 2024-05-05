@@ -13,39 +13,39 @@ font = Glyphs.font
 font.disableUpdateInterface()
 
 # Define anchor names
-anchor_names = ["top", "top_low_10", "top_low_20"]
+anchor_names = ["top", "top_low_1", "top_low_2"]
 
 # Define a dictionary to store anchor coordinates per anchor name
 anchor_coordinates = {
     "top": [
-        (0, 860), # Needlepoint SemiCondensed
-        (0, 860), # Needlepoint SemiExpanded
-        (0, 860), # Needlepoint Black SemiCondensed
-        (0, 860), # Needlepoint Black SemiExpanded
-        (0, 860), # Agate SemiCondensed
-        (0, 860), # Agate SemiExpanded
-        (0, 860), # Agate Black SemiCondensed
-        (0, 860)  # Agate Black SemiExpanded
+        (0, 741), # Needlepoint SemiCondensed
+        (0, 741), # Needlepoint SemiExpanded
+        (0, 744), # Needlepoint Black SemiCondensed
+        (0, 744), # Needlepoint Black SemiExpanded
+        (0, 741), # Agate SemiCondensed
+        (0, 741), # Agate SemiExpanded
+        (0, 744), # Agate Black SemiCondensed
+        (0, 744)  # Agate Black SemiExpanded
     ],
-    "top_low_10": [
-        (0, 850),
-        (0, 850),
-        (0, 850),
-        (0, 850),
-        (0, 850),
-        (0, 850),
-        (0, 850),
-        (0, 850)
+    "top_low_1": [
+        (0, 711),
+        (0, 711),
+        (0, 714),
+        (0, 714),
+        (0, 711),
+        (0, 711),
+        (0, 714),
+        (0, 714)
     ],
-    "top_low_20": [
-        (0, 840),
-        (0, 840),
-        (0, 840),
-        (0, 840),
-        (0, 840),
-        (0, 840),
-        (0, 840),
-        (0, 840)
+    "top_low_2": [
+        (0, 681),
+        (0, 681),
+        (0, 684),
+        (0, 684),
+        (0, 681),
+        (0, 681),
+        (0, 684),
+        (0, 684)
     ]
 }
 

@@ -1,8 +1,8 @@
-#MenuTitle: Interactively set diacritic top anchors in diacritics
+#MenuTitle: Interactively set top anchors in diacritics
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
-Interactively set a vertical array of diacritic top anchors using the existing _top anchor for alignment.
+Interactively set a vertical array of `top` anchors using the existing `_top` anchor for alignment.
 """
 
 from GlyphsApp import *
@@ -16,13 +16,13 @@ font.disableUpdateInterface()
 class AnchorDialog:
     def __init__(self):
         self.w = FloatingWindow((300, 280), "Anchor Settings")
-        self.w.top_distance_text = TextBox((10, 10, -10, 20), "Distance above x-height for 'top' anchor:")
+        self.w.top_distance_text = TextBox((10, 10, -10, 20), "Distance above x-height for 'top' anchor")
         self.w.top_distance_input = EditText((10, 35, -10, 20), placeholder="10")
-        self.w.num_anchors_text = TextBox((10, 70, -10, 20), "Number of anchors:")
+        self.w.num_anchors_text = TextBox((10, 70, -10, 20), "Number of 'top_low_*' anchors")
         self.w.num_anchors_input = EditText((10, 95, -10, 20), placeholder="3")
-        self.w.spacing_text = TextBox((10, 130, -10, 20), "Spacing between anchors:")
+        self.w.spacing_text = TextBox((10, 130, -10, 20), "Spacing between anchors")
         self.w.spacing_input = EditText((10, 155, -10, 20), placeholder="20")
-        self.w.delete_existing_anchors = CheckBox((10, 190, -10, 20), "Delete existing anchors", value=False)
+        self.w.delete_existing_anchors = CheckBox((10, 190, -10, 20), "Delete existing 'top_low_*' anchors", value=False)
         self.w.ok_button = Button((10, 220, -10, 20), "Enter", callback=self.ok_callback)
         self.w.bind("resize", self.resize_window)
         self.w.open()
@@ -78,7 +78,7 @@ def create_anchors(top_distance, num_anchors, spacing, delete_existing_anchors):
                 if anchor_name != "top":
                     y_coordinate -= spacing
                 layer.anchors.append(GSAnchor(anchor_name, NSPoint(x_coordinate, y_coordinate)))
-    print("Anchors creation complete")
+    print("Anchors creation complete!")
 
 AnchorDialog()
 

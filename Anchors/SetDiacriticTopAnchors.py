@@ -1,8 +1,8 @@
-#MenuTitle: Set the lower-case diacritic anchors for Playfair
+#MenuTitle: Interactively set diacritic top anchors in diacritics
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
-Sets the lower-case diacritic anchors for Playfair.
+Interactively set a vertical array of diacritic top anchors using the existing _top anchor for alignment.
 """
 
 from GlyphsApp import *

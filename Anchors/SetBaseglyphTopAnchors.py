@@ -2,7 +2,7 @@
 #Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
-Interactively set a vertical array of top anchors using the existing `top` anchor for alignment.
+Interactively set a vertical array of `top_low_N` anchors using the existing `top` anchor for alignment.
 """
 
 from GlyphsApp import *

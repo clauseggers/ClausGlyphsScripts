@@ -1,28 +1,26 @@
 # MenuTitle: Decompose all Cap & Corner components in all layers
 # -*- coding: utf-8 -*-
 # by Claus Eggers Sørensen
-from __future__ import division, print_function, unicode_literals
 __doc__="""
-Decomposes all corner components in selected glyphs.
+Decomposes all corner components in all layers of the selected glyphs.
 """
-from GlyphsPython import GSApplication, GSLayer
 
-# Get the Glyphs application object
-app = GSApplication()
+import GlyphsApp
 
-# Get the current font
-font = app.activeFont
+Font = Glyphs.font # the frontmost font
+selectedLayers = Font.selectedLayers # active layers of selected glyphs
 
-# Check if a glyph is selected
-if font.selection():
-  # Get the selected layer
-  layer = font.selection()[0]
+def decomposeCornersInLayer(layer):
+    if hasattr(layer, 'decomposeCorners'):
+        layer.decomposeCorners()
 
-  # Decompose all corners and caps in the layer
-  layer.decomposeCorners()
+def main():
+    for layer in selectedLayers:
+        glyph = layer.parent
+        for glyphLayer in glyph.layers:
+            decomposeCornersInLayer(glyphLayer)
 
-  print("Decomposed all smart corners and caps in the active layer.")
-else:
-  print("Please select a glyph first.")
+if __name__ == '__main__':
+    main()
 
 # EOF

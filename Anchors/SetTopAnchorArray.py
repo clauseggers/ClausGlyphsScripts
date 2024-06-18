@@ -1,5 +1,5 @@
-#MenuTitle: Interactively set a vertical array of `top` anchors
-#Created by Claus
+# MenuTitle: Interactively set a vertical array of `top` anchors
+# Created by Claus
 # -*- coding: utf-8 -*-
 __doc__="""
 Interactively set a vertical array of `top_low_N` anchors using the existing `top` or `_top` anchor for alignment.
@@ -82,6 +82,7 @@ def create_anchors(num_anchors, spacing, delete_existing_anchors):
     print("Anchors creation complete")
 
 AnchorDialog()
+
 
 font.enableUpdateInterface()
 

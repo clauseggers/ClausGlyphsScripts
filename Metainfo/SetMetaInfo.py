@@ -1,10 +1,14 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # MenuTitle: Set Font Info from TOML
 # ShortCut:
 # GlyphsVersion: 3.0
 # Description: Paste TOML describing Font Info fields and apply them to the current font.
+
+try:
+	from GlyphsApp import GSPropertyNameVendorIDKey
+except Exception:
+	GSPropertyNameVendorIDKey = "GSPropertyNameVendorIDKey"
 
 try:
 	from AppKit import NSFont
@@ -37,10 +41,8 @@ copyright = ""  # e.g. "© 2025 Example Type. All Rights Reserved."
 license = ""  # e.g. "SIL OFL 1.1"
 licenseURL = ""  # e.g. "https://scripts.sil.org/OFL"
 trademark = ""  # e.g. "Example is a trademark of Example Type."
-
-# Custom Parameters
-# Accepts either key spelling, will be written to openTypeOS2VendorID
-openTypeOS2VendorID = ""  # e.g. "EXAM"
+	# General
+vendorID = ""  # Vendor Identification (was openTypeOS2VendorID), e.g. "EXAM"
 """
 
 
@@ -152,7 +154,6 @@ def _set_font_info_from_dict(font, info: Dict[str, Any]) -> Dict[str, str]:
 	"""Apply supported keys from info to the given GSFont. Returns a report dict of changes."""
 	if not font:
 		raise RuntimeError("No font open. Open a font and try again.")
-
 	key_map = {
 		"designer": "designer",
 		"designerURL": "designerURL",
@@ -160,44 +161,55 @@ def _set_font_info_from_dict(font, info: Dict[str, Any]) -> Dict[str, str]:
 		"manufacturerURL": "manufacturerURL",
 		"copyright": "copyright",
 		"license": "license",
-		"licenseURL": "licenseURL",
 		"trademark": "trademark",
 	}
 
 	changes: Dict[str, str] = {}
 
-	# Set standard fields
+	# Set all mapped fields (direct attributes)
 	for k, attr in key_map.items():
 		if k in info:
 			new_val = info.get(k)
 			try:
-				old_val = getattr(font, attr)
-			except Exception:
-				old_val = None
-			try:
+				old_val = getattr(font, attr, None)
 				setattr(font, attr, new_val)
 				changes[attr] = f"{old_val!r} -> {new_val!r}"
 			except Exception:
-				pass
+				print(f"[SetMetaInfo][ERROR] Could not set {attr}")
+				changes[attr] = f"FAILED to set (unknown -> {new_val!r})"
 
-	# Custom parameter: openTypeOS2VendorID (accept alias openTypoOS2VendorID)
-	vendor_key_candidates = [
-		"openTypeOS2VendorID",
-		"openTypoOS2VendorID",  # alias/typo accepted in input
-	]
-	for vk in vendor_key_candidates:
-		if vk in info:
-			new_vendor = info.get(vk)
-			try:
-				old_vendor = font.customParameters.get("openTypeOS2VendorID")
-			except Exception:
-				old_vendor = None
-			try:
-				font.customParameters["openTypeOS2VendorID"] = new_vendor
-				changes["custom:openTypeOS2VendorID"] = f"{old_vendor!r} -> {new_vendor!r}"
-			except Exception:
-				pass
-			break
+	# Helper for custom property setting (used by mekkablue's script)
+	def addPropertyToFont(font, key, value):
+		try:
+			while font.propertyForName_(key):
+				font.removeObjectFromProperties_(font.propertyForName_(key))
+			font.setProperty_value_languageTag_(key, value, None)
+		except Exception as e:
+			print(f"[SetMetaInfo][ERROR] Could not set property {key}: {e}")
+
+	# Set vendorID as a custom property
+	if "vendorID" in info:
+		new_val = info["vendorID"]
+		try:
+			existing = font.propertyForName_("vendorID")
+			old_val = existing.value if existing else None
+			addPropertyToFont(font, "vendorID", new_val)
+			changes["vendorID"] = f"{old_val!r} -> {new_val!r}"
+		except Exception as e:
+			print(f"[SetMetaInfo][ERROR] Could not set vendorID: {e}")
+			changes["vendorID"] = f"FAILED to set (unknown -> {new_val!r})"
+
+	# Set licenseURL as a custom property
+	if "licenseURL" in info:
+		new_val = info["licenseURL"]
+		try:
+			existing = font.propertyForName_("licenseURL")
+			old_val = existing.value if existing else None
+			addPropertyToFont(font, "licenseURL", new_val)
+			changes["licenseURL"] = f"{old_val!r} -> {new_val!r}"
+		except Exception as e:
+			print(f"[SetMetaInfo][ERROR] Could not set licenseURL: {e}")
+			changes["licenseURL"] = f"FAILED to set (unknown -> {new_val!r})"
 
 	return changes
 
@@ -211,9 +223,19 @@ class SetFontInfoFromTOMLUI(object):
 		self.w = vanilla.FloatingWindow((width, height), "Set Font Info from TOML")
 		pad = 12
 		self.w.desc = vanilla.TextBox((pad, pad, -pad, 18), "Paste TOML below and click Apply:")
-		self.w.editor = vanilla.TextEditor((pad, 34, -pad, height - 100), text=TOML_TEMPLATE)
+		# Load last content from Glyphs preferences if available
+		_PREF_KEY = "com.clauseggers.SetMetaInfo.lastTOML"
+		initial_text = TOML_TEMPLATE
+		try:
+			if Glyphs is not None:
+				last = Glyphs.defaults[_PREF_KEY]
+				if last and isinstance(last, str) and last.strip():
+					initial_text = last
+		except Exception:
+			pass
+		self.w.editor = vanilla.TextEditor((pad, 34, -pad, height - 100), text=initial_text)
 
-		# Minimal: force plain text and set a fixed-pitch font to avoid tofu/formatting
+		# Minimal: force plain text, set a fixed-pitch font, and disable smart substitutions
 		try:
 			nsTextView = None
 			if hasattr(self.w.editor, "getNSTextView"):
@@ -227,10 +249,21 @@ class SetFontInfoFromTOMLUI(object):
 					nsTextView.setRichText_(False)
 				if hasattr(nsTextView, "setImportsGraphics_"):
 					nsTextView.setImportsGraphics_(False)
+				# Disable smart substitutions (quotes, dashes, etc.)
+				for sel in (
+					"setAutomaticQuoteSubstitutionEnabled_",
+					"setAutomaticDashSubstitutionEnabled_",
+					"setAutomaticTextReplacementEnabled_",
+					"setAutomaticSpellingCorrectionEnabled_",
+					"setContinuousSpellCheckingEnabled_",
+					"setGrammarCheckingEnabled_",
+					"setSmartInsertDeleteEnabled_",
+				):
+					if hasattr(nsTextView, sel):
+						getattr(nsTextView, sel)(False)
 				# Set a fixed-pitch font with good Unicode coverage
 				if NSFont is not None:
 					font = None
-					# Try SF Mono, then system fixed-pitch
 					for fam in ("SF Mono", "Menlo", "Monaco", "Courier"):
 						f = NSFont.fontWithName_size_(fam, 13.0)
 						if f is not None:
@@ -249,13 +282,28 @@ class SetFontInfoFromTOMLUI(object):
 		self.w.makeKey()
 
 	def close_(self, sender=None):
+		# Save current content to Glyphs preferences
+		_PREF_KEY = "com.clauseggers.SetMetaInfo.lastTOML"
+		try:
+			text = self.w.editor.get()
+			if Glyphs is not None:
+				Glyphs.defaults[_PREF_KEY] = text
+		except Exception:
+			pass
 		try:
 			self.w.close()
 		except Exception:
 			pass
 
 	def apply_(self, sender=None):
+		# Save current content to Glyphs preferences
+		_PREF_KEY = "com.clauseggers.SetMetaInfo.lastTOML"
 		text = self.w.editor.get()
+		try:
+			if Glyphs is not None:
+				Glyphs.defaults[_PREF_KEY] = text
+		except Exception:
+			pass
 		try:
 			data = _parse_toml(text)
 		except Exception as e:

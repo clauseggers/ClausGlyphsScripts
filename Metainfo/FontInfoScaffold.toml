@@ -1,0 +1,15 @@
+# Font Info TOML scaffold for Glyphs
+# Fill in the values and paste into the script window.
+
+# General
+designer = ""
+designerURL = ""
+manufacturer = ""
+manufacturerURL = ""
+copyright = ""
+license = ""
+licenseURL = ""
+trademark = ""
+
+# Custom Parameters
+openTypeOS2VendorID = ""
